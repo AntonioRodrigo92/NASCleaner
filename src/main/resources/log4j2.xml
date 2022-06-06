@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Properties>
+        <Property name="basePath">/home/pi/apps/NASCleaner/logs</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="fileLogger"
+                     fileName="${basePath}/NASCleaner.log"
+                     filePattern="${basePath}/NASCleaner-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} - [%level]: %msg%n
+                </pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="30" modulate="true" />
+                <SizeBasedTriggeringPolicy size="100MB" />
+            </Policies>
+            <!-- Max 10 files will be created everyday -->
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${basePath}" maxDepth="10">
+                    <!-- Delete all files older than 90 days -->
+                    <IfLastModified age="90d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info" additivity="false">
+            <appender-ref ref="fileLogger" />
+        </Root>
+    </Loggers>
+</Configuration>
