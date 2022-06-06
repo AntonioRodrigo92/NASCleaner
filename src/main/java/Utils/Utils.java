@@ -14,13 +14,15 @@ import java.util.Properties;
 public class Utils {
 
     public static String baseDirectory(String filePath) {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return properties.getProperty("BASE_DIRECTORY");
+        return Utils.getProperty(filePath, "BASE_DIRECTORY");
+    }
+
+    public static String threshold(String filePath) {
+        return Utils.getProperty(filePath, "THRESHOLD");
+    }
+
+    public static String securityDirectory(String filePath) {
+        return Utils.getProperty(filePath, "SECURITY_CAM_DIR");
     }
 
     public static float getPercentualDiskUsage(String rootPath) {
@@ -31,10 +33,9 @@ public class Utils {
         return usage;
     }
 
-    public static void deleteDirectory(String dirPath) throws NotADirectoryException {
-        File dir = new File(dirPath);
+    public static void deleteDirectory(File dir) throws NotADirectoryException {
         if (dir.isDirectory()) {
-            ArrayList<File> allFiles = (ArrayList<File>) Utils.getAllFilesInDirectory(dirPath);
+            ArrayList<File> allFiles = (ArrayList<File>) Utils.getAllFilesInDirectory(dir.getAbsolutePath());
             for (File f : allFiles) {
                 f.delete();
             }
@@ -57,6 +58,16 @@ public class Utils {
         }
     }
 
+    private static String getProperty(String filePath, String propertyName) {
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties.getProperty(propertyName);
+    }
+
     private static List<File> getAllFilesInDirectory(String dirPath) {
         return getAllEntriesInDirectory(dirPath, File::isFile);
     }
@@ -69,7 +80,6 @@ public class Utils {
         File directory = new File(dirPath);
         File[] allFilesInDir = directory.listFiles();
         List<File> fileList = new ArrayList<>();
-
         for (File f : allFilesInDir) {
             if(filter.condition(f)) {
                 fileList.add(f);
