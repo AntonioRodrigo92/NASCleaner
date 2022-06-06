@@ -11,7 +11,6 @@ public class NASCleaner {
     public static void main(String[] args) throws Exception {
         LOG.info("beginning the cleaning process");
         String propertiesFile = args[0];
-//        String propertiesFile = "/home/antonio/IdeaProjects/NASCleaner/src/main/resources/Properties.conf";
 
         String rootDirPath = Utils.baseDirectory(propertiesFile);
         String securityDir = Utils.securityDirectory(propertiesFile);
@@ -31,10 +30,8 @@ public class NASCleaner {
             }
         } catch (NotADirectoryException e) {
             LOG.error(e);
-            throw new RuntimeException(e);
         } catch (Exception e) {
             LOG.error(e);
-            throw new Exception(e);
         }
         LOG.info("Cleaning process done!!");
     }
