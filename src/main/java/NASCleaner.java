@@ -1,12 +1,17 @@
 import Exceptions.NotADirectoryException;
 import Utils.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
 public class NASCleaner {
+    private static final Logger LOG = LogManager.getLogger();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        LOG.info("beginning the cleaning process");
         String propertiesFile = args[0];
+//        String propertiesFile = "/home/antonio/IdeaProjects/NASCleaner/src/main/resources/Properties.conf";
 
         String rootDirPath = Utils.baseDirectory(propertiesFile);
         String securityDir = Utils.securityDirectory(propertiesFile);
@@ -16,13 +21,21 @@ public class NASCleaner {
 
         try {
             while (diskUsage > threshold) {
+                LOG.info("disk usage is over the threshold");
+
                 File oldest = Utils.getOldestDirectory(securityDir);
                 Utils.deleteDirectory(oldest);
+                diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
 
-                System.out.println("deleted " + oldest.getAbsolutePath());
+                LOG.info("the " + oldest.getName() + " directory was deleted");
             }
         } catch (NotADirectoryException e) {
+            LOG.error(e);
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            LOG.error(e);
+            throw new Exception(e);
         }
+        LOG.info("Cleaning process done!!");
     }
 }
