@@ -9,7 +9,7 @@ public class NASCleaner {
     private static final Logger LOG = LogManager.getLogger();
 
     public static void main(String[] args) throws Exception {
-        LOG.info("beginning the cleaning process");
+        LOG.info("Beginning the cleaning process");
         String propertiesFile = args[0];
 
         String rootDirPath = Utils.baseDirectory(propertiesFile);
@@ -17,22 +17,23 @@ public class NASCleaner {
         Float threshold = Float.parseFloat(Utils.threshold(propertiesFile));
 
         Float diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
+        LOG.info("Disk usage is at " + diskUsage + "%");
 
         try {
             while (diskUsage > threshold) {
-                LOG.warn("disk usage is over the threshold");
+                LOG.warn("Disk usage is over the threshold");
 
                 File oldest = Utils.getOldestDirectory(securityDir);
                 Utils.deleteDirectory(oldest);
                 diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
 
-                LOG.warn("the " + oldest.getName() + " directory was deleted");
+                LOG.warn("The " + oldest.getName() + " directory was deleted");
             }
         } catch (NotADirectoryException e) {
             LOG.error(e);
         } catch (Exception e) {
             LOG.error(e);
         }
-        LOG.info("Cleaning process done!!");
+        LOG.info("Cleaning process done!! \n");
     }
 }
