@@ -20,13 +20,13 @@ public class NASCleaner {
 
         try {
             while (diskUsage > threshold) {
-                LOG.info("disk usage is over the threshold");
+                LOG.warn("disk usage is over the threshold");
 
                 File oldest = Utils.getOldestDirectory(securityDir);
                 Utils.deleteDirectory(oldest);
                 diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
 
-                LOG.info("the " + oldest.getName() + " directory was deleted");
+                LOG.warn("the " + oldest.getName() + " directory was deleted");
             }
         } catch (NotADirectoryException e) {
             LOG.error(e);
