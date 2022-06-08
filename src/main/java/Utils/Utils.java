@@ -2,6 +2,7 @@ package Utils;
 
 import Exceptions.NotADirectoryException;
 import Interface.FileFilter;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,6 +57,12 @@ public class Utils {
         else {
             throw new NotADirectoryException("The path given is not a directory");
         }
+    }
+
+    public static double directorySizeInGB(File directory) {
+        double sizeInBits = FileUtils.sizeOfDirectory(directory);
+        double sizeInGB = sizeInBits / (Math.pow(1024, 3));
+        return sizeInGB;
     }
 
     private static String getProperty(String filePath, String propertyName) {
