@@ -22,6 +22,10 @@ public class Utils {
         return Utils.getProperty(filePath, "THRESHOLD");
     }
 
+    public static String directoryMaxSize(String filePath) {
+        return Utils.getProperty(filePath, "SECURITY_CAM_DIR_MAX_SIZE");
+    }
+
     public static String securityDirectory(String filePath) {
         return Utils.getProperty(filePath, "SECURITY_CAM_DIR");
     }
