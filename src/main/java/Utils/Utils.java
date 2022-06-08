@@ -63,7 +63,8 @@ public class Utils {
         }
     }
 
-    public static double directorySizeInGB(File directory) {
+    public static double directorySizeInGB(String directoryPath) {
+        File directory = new File(directoryPath);
         double sizeInBits = FileUtils.sizeOfDirectory(directory);
         double sizeInGB = sizeInBits / (Math.pow(1024, 3));
         return sizeInGB;

@@ -15,13 +15,15 @@ public class NASCleaner {
         String rootDirPath = Utils.baseDirectory(propertiesFile);
         String securityDir = Utils.securityDirectory(propertiesFile);
         Float threshold = Float.parseFloat(Utils.threshold(propertiesFile));
+        double maxSize = Double.parseDouble(Utils.directoryMaxSize(propertiesFile));
 
         Float diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
-        LOG.info("Disk usage is at " + diskUsage + "%");
+        double securityDirSize = Utils.directorySizeInGB(securityDir);
+        LOG.info("Disk usage is at " + securityDirSize + "(" + diskUsage + "%)");
 
         try {
-            while (diskUsage > threshold) {
-                LOG.warn("Disk usage is over the threshold");
+            while (diskUsage > threshold || securityDirSize > maxSize) {
+                LOG.warn("Disk usage or max size above threshold. Deleting security footage!");
 
                 File oldest = Utils.getOldestDirectory(securityDir);
                 Utils.deleteDirectory(oldest);
