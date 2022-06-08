@@ -19,7 +19,7 @@ public class NASCleaner {
 
         Float diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
         double securityDirSize = Utils.directorySizeInGB(securityDir);
-        LOG.info("Disk usage is at " + securityDirSize + "(" + diskUsage + "%)");
+        LOG.info("Disk usage is at " + securityDirSize + " (" + diskUsage + "%)");
 
         try {
             while (diskUsage > threshold || securityDirSize > maxSize) {
@@ -28,6 +28,7 @@ public class NASCleaner {
                 File oldest = Utils.getOldestDirectory(securityDir);
                 Utils.deleteDirectory(oldest);
                 diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
+                securityDirSize = Utils.directorySizeInGB(securityDir);
 
                 LOG.warn("The " + oldest.getName() + " directory was deleted");
             }
