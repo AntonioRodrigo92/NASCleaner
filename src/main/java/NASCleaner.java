@@ -23,7 +23,7 @@ public class NASCleaner {
 
         try {
             while (diskUsage > threshold || securityDirSize > maxSize) {
-                LOG.warn("Disk usage or max size above threshold. Deleting security footage!");
+                LOG.warn("Disk usage above threshold. Deleting security footage!");
 
                 File oldest = Utils.getOldestDirectory(securityDir);
                 Utils.deleteDirectory(oldest);
