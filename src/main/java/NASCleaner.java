@@ -19,7 +19,7 @@ public class NASCleaner {
 
         Float diskUsage = Utils.getPercentualDiskUsage(rootDirPath);
         double securityDirSize = Utils.directorySizeInGB(securityDir);
-        LOG.info("Disk usage is at " + securityDirSize + " (" + diskUsage + "%)");
+        LOG.info("Disk usage is at " + securityDirSize + "GB (" + diskUsage + "%)");
 
         try {
             while (diskUsage > threshold || securityDirSize > maxSize) {
