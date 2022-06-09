@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,19 +15,19 @@ import java.util.Properties;
 
 public class Utils {
 
-    public static String baseDirectory(String filePath) {
+    public static String baseDirectory(String filePath) throws IOException {
         return Utils.getProperty(filePath, "BASE_DIRECTORY");
     }
 
-    public static String threshold(String filePath) {
+    public static String threshold(String filePath) throws IOException {
         return Utils.getProperty(filePath, "THRESHOLD");
     }
 
-    public static String directoryMaxSize(String filePath) {
+    public static String directoryMaxSize(String filePath) throws IOException {
         return Utils.getProperty(filePath, "SECURITY_CAM_DIR_MAX_SIZE");
     }
 
-    public static String securityDirectory(String filePath) {
+    public static String securityDirectory(String filePath) throws IOException {
         return Utils.getProperty(filePath, "SECURITY_CAM_DIR");
     }
 
@@ -70,13 +71,9 @@ public class Utils {
         return sizeInGB;
     }
 
-    private static String getProperty(String filePath, String propertyName) {
+    private static String getProperty(String filePath, String propertyName) throws IOException {
         Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        properties.load(new FileInputStream(filePath));
         return properties.getProperty(propertyName);
     }
 
