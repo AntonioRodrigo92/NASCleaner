@@ -99,23 +99,32 @@ class UtilsTest {
     void should_returnCorrectPercentualDiskUsage_when_correctPath() {
         //  given
         String path = "D:\\Imagens\\OnePlus3\\1-9-2020";
-        float expected = (float) 50.998314;
+        float expected = (float) 44.703773;
         //  when
         float actual = Utils.getPercentualDiskUsage(path);
         //  then
         assertEquals(expected, actual);
     }
 
-//    @Test
-//    void should_deleteDirectory_when_correctPath() throws NotADirectoryException {
-//        //  given
-//        Utils utils = mock(Utils.class);
-//        //  when
-//        doNothing().when(utils).deleteDirectory(isA(File.class));
-//        utils.deleteDirectory(any());
-//        //  then
-//        verify(utils, times(1).deleteDirectory(new File("")));
-//    }
+    @Test
+    void should_deleteDirectory_when_correctPath() throws NotADirectoryException {
+        //  given
+        Utils utils = mock(Utils.class);
+        //  when
+        utils.deleteDirectory(new File("D:\\Imagens\\OnePlus3"));
+        //  then
+        verify(utils, times(1)).deleteDirectory(new File("D:\\Imagens\\OnePlus3"));
+    }
+
+    @Test
+    void should_throwExceptionDeleteDirectory_when_notAPath() {
+        //  given
+
+        //  when
+        Executable executable = () -> Utils.deleteDirectory(new File(""));
+        //  then
+        assertThrows(NotADirectoryException.class, executable);
+    }
 
     @Test
     void should_returnOldestDirectory_when_correctPath() throws NotADirectoryException {
@@ -129,7 +138,7 @@ class UtilsTest {
     }
 
     @Test
-    void should_throwErrorOldestDirectory_when_NotADirectory() {
+    void should_throwExceptionOldestDirectory_when_NotADirectory() {
         //  given
         String path = "D:\\Imagens\\OnePlus3\\1-9-2020\\00000IMG_00000_BURST20190627210940685_COVER.jpg";
         //  when
