@@ -28,13 +28,24 @@ class NASCleanerTest {
     }
 
     @Test
-    void should_throwNotADirectoryException_when_incorrectPath() {
+    void should_throwException_when_incorrectPath() {
         //  given
         String propertiesPath = "";
         //  when
         Executable executable = () -> NASCleaner.main(new String[]{propertiesPath});
         //  then
         assertThrows(Exception.class, executable);
+    }
+
+    @Disabled
+    @Test
+    void should_throwNotADirectoryException_when_incorrectPath() {
+        //  given
+        String propertiesPath = "C:\\Users\\Antonio\\IdeaProjects\\NASCleaner\\src\\test\\resources\\properties_WRONG_main.conf";
+        //  when
+        Executable executable = () -> NASCleaner.main(new String[]{propertiesPath});
+        //  then
+        assertThrows(NotADirectoryException.class, executable);
     }
 
     @BeforeEach
