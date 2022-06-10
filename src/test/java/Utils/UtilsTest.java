@@ -1,12 +1,17 @@
 package Utils;
 
 import Exceptions.NotADirectoryException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
@@ -98,22 +103,25 @@ class UtilsTest {
     @Test
     void should_returnCorrectPercentualDiskUsage_when_correctPath() {
         //  given
-        String path = "D:\\Imagens\\OnePlus3\\1-9-2020";
-        float expected = (float) 44.703773;
+        String path = "C:\\Users\\Antonio\\IdeaProjects\\NASCleaner\\src\\main\\java";
+        float expected = Float.parseFloat("58.4");
         //  when
-        float actual = Utils.getPercentualDiskUsage(path);
+        BigDecimal actualBD = new BigDecimal(Utils.getPercentualDiskUsage(path))
+                .setScale(1, RoundingMode.HALF_DOWN);
+        float actual = (float) actualBD.doubleValue();
         //  then
         assertEquals(expected, actual);
     }
 
     @Test
-    void should_deleteDirectory_when_correctPath() throws NotADirectoryException {
+    void should_deleteDirectory_when_correctPath() throws NotADirectoryException, IOException {
         //  given
+        deleteSetup();
         Utils utils = mock(Utils.class);
         //  when
-        utils.deleteDirectory(new File("D:\\Imagens\\OnePlus3"));
+
         //  then
-        verify(utils, times(1)).deleteDirectory(new File("D:\\Imagens\\OnePlus3"));
+        verify(utils, times(1)).deleteDirectory(new File("C:\\Users\\Antonio\\IdeaProjects\\NASCleaner\\src\\test\\resources\\TESTE"));
     }
 
     @Test
@@ -157,6 +165,13 @@ class UtilsTest {
         double actual = actualBD.doubleValue();
         //  then
         assertEquals(expected, actual);
+    }
+
+    private void deleteSetup() throws IOException {
+        Path dirPath = Paths.get("C:\\Users\\Antonio\\IdeaProjects\\NASCleaner\\src\\test\\resources\\TESTE");
+        Files.createDirectories(dirPath);
+        File file = new File("C:\\Users\\Antonio\\IdeaProjects\\NASCleaner\\src\\test\\resources\\TESTE\\teste.txt");
+        file.createNewFile();
     }
 
 }
