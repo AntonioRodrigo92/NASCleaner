@@ -104,7 +104,7 @@ class UtilsTest {
     void should_returnCorrectPercentualDiskUsage_when_correctPath() {
         //  given
         String path = "C:\\Users\\Antonio\\IdeaProjects\\NASCleaner\\src\\main\\java";
-        float expected = Float.parseFloat("58.4");
+        float expected = Float.parseFloat("58.3");
         //  when
         BigDecimal actualBD = new BigDecimal(Utils.getPercentualDiskUsage(path))
                 .setScale(1, RoundingMode.HALF_DOWN);
