@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>NASCleaner</artifactId>
-    <version>2.1</version>
+    <version>2.1.1</version>
     <packaging>jar</packaging>
 
 
@@ -77,6 +77,7 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>NASCleaner</Main-Class>
+                                        <Multi-Release>true</Multi-Release>
                                         <Build-Number>1</Build-Number>
                                     </manifestEntries>
                                 </transformer>
